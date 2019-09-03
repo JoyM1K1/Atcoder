@@ -14,5 +14,18 @@ ll gcd(ll x, ll y) { return y ? gcd(y, x % y) : x; }
 
 int main() {
   int N;
-  
+  cin >> N;
+  ll H[N];
+  REP(i, N) cin >> H[i];
+  int count = 0;
+  int ans = 0;
+  REP(i, N - 1) {
+    if (H[i] >= H[i + 1]) {
+      count++;
+    } else {
+      count = 0;
+    }
+    ans = max(ans, count);
+  }
+  cout << ans << '\n';
 }
