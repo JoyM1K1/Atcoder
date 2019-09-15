@@ -17,4 +17,5 @@ int main() {
   cin >> N;
   int P[N];
   REP(i, N) cin >> P[i];
+  int fi = P[0], se = P[1];
 }

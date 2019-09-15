@@ -14,7 +14,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y, x % y) : x; }
 
 int main() {
   int N, K;
-  cin >> N >> K;
+  cin >> N >> K; // scanf("%d",&N)
   char S[N];
   REP(i, N) cin >> S[i];
   int count = 0;
