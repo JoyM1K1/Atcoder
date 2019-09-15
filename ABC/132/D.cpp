@@ -9,48 +9,36 @@ typedef long long ll;
 ll gcd(ll x, ll y) { return y ? gcd(y, x % y) : x; }
 ll div_ceil(ll, ll);
 
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
+const int MAX = 2000;
 
-ll factrial(ll n) { // n!
-  if (n == 0)
-    return 1;
-  ll fact = 1;
-  for (int i = n; i > 1; i--) {
-    fact *= i;
+long long fac[MAX], finv[MAX], inv[MAX];
+
+// テーブルを作る前処理
+void COMinit() {
+  fac[0] = fac[1] = 1;
+  finv[0] = finv[1] = 1;
+  inv[1] = 1;
+  for (int i = 2; i < MAX; i++) {
+    fac[i] = fac[i - 1] * i % MOD;
+    inv[i] = MOD - inv[MOD % i] * (MOD / i) % MOD;
+    finv[i] = finv[i - 1] * inv[i] % MOD;
   }
-  return fact;
 }
 
-ll Com(ll n, ll m) { // nCm
-  if (m == 0 || n == m)
-    return 1;
-  if (m > n / 2)
-    m = n - m;
-  ll d = 1;
-  ll e = factrial(m);
-  for (int i = n; i > n - m; i--) {
-    d *= i;
-  }
-  return d / e;
+// 二項係数計算
+long long COM(int n, int k) {
+  if (n < k)
+    return 0;
+  if (n < 0 || k < 0)
+    return 0;
+  return fac[n] * (finv[k] * finv[n - k] % MOD) % MOD;
 }
 
 int main() {
+  COMinit();
   ll N, K;
   cin >> N >> K;
   for (int i = 1; i <= K; i++) {
-    ll a = Com(K - 1, i - 1) % MOD;
-    ll b = Com(N - K + 1, i) % MOD;
-    cout << (a * b) % MOD << '\n';
-  }
-}
-
-ll div_ceil(ll a, ll b) {
-  ll quotient = a / b;
-  ll remainder = a % b;
-  if (remainder == 0) {
-    return quotient;
-  } else {
-    return quotient + 1;
+    cout << (COM(N-K+1, i) * COM(K-1, i-1)) % MOD << '\n';
   }
 }
