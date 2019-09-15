@@ -7,39 +7,40 @@
 using namespace std;
 typedef long long ll;
 ll gcd(ll x, ll y) { return y ? gcd(y, x % y) : x; }
-ll div_ceil(ll, ll);
-
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
 
 int main() {
   int N, M;
-  std::cin >> N >> M;
-  std::vector<std::vector<int>> s(M, std::vector<int>(N));
+  cin >> N >> M;
+  vector<int> S[M];
   REP(i, M) {
     int k;
-    std::cin >> k;
+    cin >> k;
     REP(j, k) {
-      int a;
-      std::cin >> a;
-      s[i][a - 1] = 1;
+      int s;
+      cin >> s;
+      s--;
+      S[i].PB(s);
     }
   }
-  std::vector<int> p(M);
-  REP(i, M) { std::cin >> p[i]; }
-  // REP(i, M) {
-  //   REP(j, N) { std::cout << s[i][j] << ' '; }
-  //   std::cout << '\n';
-  // }
-  int count = 0;
-}
-
-ll div_ceil(ll a, ll b) {
-  ll quotient = a / b;
-  ll remainder = a % b;
-  if (remainder == 0) {
-    return quotient;
-  } else {
-    return quotient + 1;
+  int p[M];
+  REP(i, M) cin >> p[i];
+  int ans = 0;
+  REP(i, (1 << N)) {
+    bool ok = true;
+    REP(j, M) {
+      int count = 0;
+      for (auto id : S[j]) {
+        if (i & (1 << id)) {
+          count++;
+        }
+      }
+      count %= 2;
+      if (count != p[j]) {
+        ok = false;
+        break;
+      }
+    }
+    if (ok) ans++;
   }
+  cout << ans << '\n';
 }
