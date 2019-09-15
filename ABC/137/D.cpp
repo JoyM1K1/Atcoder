@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define REP(i, N) for (int i = 0; i < (N); ++i)
+#define REP(i, N) for (ll i = 0; i < (N); ++i)
 #define ALL(x) (x).begin(), (x).end()
 #define MOD 1000000007
 #define PB push_back
@@ -15,23 +15,20 @@ ll gcd(ll x, ll y) { return y ? gcd(y, x % y) : x; }
 int main() {
   ll N, M;
   cin >> N >> M;
-  pair<ll, ll> v[N];
-  REP(i, N) cin >> v[i].first >> v[i].second;
-  // REP(i, N) v[i].second = -v[i].second;
-  sort(v, v + N);
-  reverse(v, v + N);
-  ll id = 0;
+  vector<vector<ll>> v(1e5+1);
+  REP(i, N) {
+    ll a, b;
+    cin >> a >> b;
+    v[a].PB(b);
+  }
   ll ans = 0;
-  ll dp[M];
-  // cout << '\n';
-  // REP(i, N) cout << v[i].first << ' ' << v[i].second << '\n';
-  for (int i = M; i > 0; i--) {
-    while (v[id].second > i && id < N - 1)
-      id++;
-    if (v[id].second <= i) {
-      ans += v[id].first;
+  priority_queue<ll> pq;
+  for (ll i = 1; i <= M; i++) {
+    for (auto e : v[i]) pq.push(e);
+    if (pq.size() != 0) {
+      ans += pq.top();
+      pq.pop();
     }
-    id++;
   }
   cout << ans << '\n';
 }
